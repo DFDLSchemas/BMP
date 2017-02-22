@@ -41,6 +41,103 @@
 	<xs:element name="BMP">
 		<xs:complexType>
 			<xs:sequence>
+				<!-- 
+					Used to identify the type of BMP file
+					BM = bitmap
+					BA = bitmap array
+					IC = icon
+					CI = color icon
+					PT = pointer
+					CP = color pointer
+				-->
+				<xs:element name="Identifier" type="xs:string" dfdl:alignmentUnits="bytes" dfdl:lengthKind="explicit"  dfdl:lengthUnits="bytes" dfdl:length="2" />
+				<xs:choice>
+					<xs:sequence>
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								<dfdl:discriminator test="{Identifier eq 'BM'}"/>
+							</xs:appinfo>
+						</xs:annotation>
+						<xs:element ref="Standard-Bitmap"/>
+					</xs:sequence>
+					<xs:sequence>
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								<dfdl:discriminator test="{Identifier eq 'BA'}"/>
+							</xs:appinfo>
+						</xs:annotation>
+						<xs:element ref="Bitmap_Array" />
+					</xs:sequence>
+					<xs:sequence>
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								<dfdl:discriminator test="{Identifier eq 'IC'}"/>
+							</xs:appinfo>
+						</xs:annotation>
+						<xs:element ref="Icon" />
+					</xs:sequence>
+					<xs:sequence>
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								<dfdl:discriminator test="{Identifier eq 'CI'}"/>
+							</xs:appinfo>
+						</xs:annotation>
+						<xs:element ref="Color_Icon" />
+					</xs:sequence>
+					<xs:sequence>
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								<dfdl:discriminator test="{Identifier eq 'PT'}"/>
+							</xs:appinfo>
+						</xs:annotation>
+						<xs:element ref="Pointer" />
+					</xs:sequence>
+					<xs:sequence>
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								<dfdl:discriminator test="{Identifier eq 'CP'}"/>
+							</xs:appinfo>
+						</xs:annotation>
+						<xs:element ref="Color_Pointer" />
+					</xs:sequence>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- 
+		The icon, pointer, color icon, and color pointer BMP files have the same
+		file and bitmap headers as bitmap BMP files, but differ in how the headers
+		and bitmap data are arranged.
+		
+		Icon and pointer BMP files store only 1-bit monochrome data and do not use
+		color palette data, although a color palette may be present in the file.
+		The bitmap data is normally uncompressed and stores two bitmap masks used
+		to display the icon or pointer image. 
+		
+		Color icon and color pointer BMP files are basically the same as icon and
+		pointer files but have an additional color bitmap added. The headers and
+		color table for the monochrome bitmap are immediately followed by the
+		headers and color palette for the color bitmap.
+		
+		http://netghost.narod.ru/gff/graphics/summary/os2bmp.htm 
+	-->
+	
+	<!-- 
+		The standard bitmap (identifier=BM) seems to be the predominate
+		form of BMP. In fact, I was unable to find a single BMP file that
+		was not BM. So, Boyd approved this: process standard bitmaps,
+		reject all others.
+	-->
+	<xs:element name="Bitmap_Array" type="xs:string" dfdl:inputValueCalc='{daf:error()}'/>
+	<xs:element name="Icon" type="xs:string" dfdl:inputValueCalc='{daf:error()}'/>
+	<xs:element name="Color_Icon" type="xs:string" dfdl:inputValueCalc='{daf:error()}'/>
+	<xs:element name="Pointer" type="xs:string" dfdl:inputValueCalc='{daf:error()}'/>
+	<xs:element name="Color_Pointer" type="xs:string" dfdl:inputValueCalc='{daf:error()}'/>
+	
+	<xs:element name="Standard-Bitmap">
+		<xs:complexType>
+			<xs:sequence>
 				<xs:element ref="BMP_File_Header"/>
 				<!-- The size of the DIB header. This indicates which of the 7 different DIB headers is being used -->
 				<xs:element name="Header_Size" type="unsignedint32" />
@@ -114,8 +211,6 @@
 	<xs:element name="BMP_File_Header">
 		<xs:complexType>
 			<xs:sequence>
-				<!-- Used to identify that this is a BMP file -->
-				<xs:element name="Identifier" type="xs:string" dfdl:alignmentUnits="bytes" dfdl:lengthKind="explicit"  dfdl:lengthUnits="bytes" dfdl:length="2" />
 				<!-- The size of the BMP file in bytes -->
 				<!-- All of the integer values are stored in little-endian format (i.e. least-significant byte first) -->
 				<xs:element name="File_Size" type="unsignedint32" dfdl:byteOrder="littleEndian"/>  <!-- 4 bytes -->
@@ -163,7 +258,7 @@
 			<xs:group ref="First-16-bytes" />
 			<!-- The compression method being used -->
 			<xs:sequence dfdl:hiddenGroupRef="hidden_BMP_Compression_Method_Group"/>
-			<!-- The compression method being used -->
+			<!-- The compression method being used. RLE = run-length encoding -->
 			<xs:element name="Compression_Method" type="xs:string" dfdl:inputValueCalc='{
 				if (../Hidden_Compression_Method eq 0) then "none"
 				else if (../Hidden_Compression_Method eq 1) then "RLE 8-bit/pixel"
