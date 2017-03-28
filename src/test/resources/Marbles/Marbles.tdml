@@ -43,7 +43,7 @@ SOFTWARE.
   http://www.ibm.com/xmlns/dfdl/testData xsd/tdml.xsd"
   defaultRoundTrip="true">
 
-  <tdml:parserTestCase name="Marbles" root="BMP" model="xsd/bmp.dfdl.xsd">
+  <tdml:parserTestCase name="Marbles" root="BMP" model="com/mitre/bmp/xsd/bmp.dfdl.xsd">
     <tdml:document>
       <tdml:documentPart type="file">MARBLES.BMP</tdml:documentPart>
     </tdml:document>

@@ -1,10 +1,12 @@
-name := "bmp"
+name := "dfdl-bmp"
 
 organization := "com.mitre"
 
 version := "0.0.1"
 
 scalaVersion := "2.11.8"
+
+crossPaths := false
 
 testOptions in ThisBuild += Tests.Argument(TestFrameworks.JUnit, "-v")
 
