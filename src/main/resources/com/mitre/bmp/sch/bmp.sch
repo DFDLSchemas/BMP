@@ -6,6 +6,17 @@
     
     <sch:ns uri="http://www.w3.org/2005/xpath-functions/math" prefix="math"/>
     
+    <!--  
+        NOTICE
+        This software was produced for the U. S. Government under 
+        Basic Contract No. W15P7T-13-C-A802, and is subject to the
+        Rights in Noncommercial Computer Software and Noncommercial
+        Computer Software Documentation Clause 252.227-7014 (FEB 2012)
+        
+        © 2017 The MITRE Corporation.
+
+    -->
+    
     <sch:pattern id="Magic-Number">
         <sch:rule context="BMP">
             <sch:assert test="Identifier = ('BM', 'BA', 'CI', 'CP', 'IC', 'PT')">
