@@ -4,7 +4,7 @@ import edu.illinois.ncsa.daffodil.tdml.DFDLTestSuite
 import edu.illinois.ncsa.daffodil.util.Misc
 
 object TestMarbles {
-  val tdmlFile = "Marbles/Marbles.tdml"
+  val tdmlFile = "com/mitre/bmp/Marbles/Marbles.tdml"
   val validateTDML = true
   val validateDFDLSchema = true
   lazy val runner = new DFDLTestSuite(Misc.getRequiredResource(tdmlFile), validateTDML, validateDFDLSchema)
