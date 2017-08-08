@@ -24,7 +24,7 @@
     <xs:annotation>
         <xs:appinfo source="http://www.ogf.org/dfdl/">
             <dfdl:format alignmentUnits="bits" lengthUnits="bits" representation="binary" binaryNumberRep="binary" 
-            	         byteOrder="bigEndian" bitOrder="mostSignificantBitFirst" lengthKind="implicit" alignment="1" encodingErrorPolicy="replace" 
+            	         byteOrder="littleEndian" bitOrder="mostSignificantBitFirst" lengthKind="implicit" alignment="1" encodingErrorPolicy="replace" 
                          binaryFloatRep="ieee" calendarPatternKind="implicit" documentFinalTerminatorCanBeMissing="yes" 
                          emptyValueDelimiterPolicy="none" escapeSchemeRef="" fillByte="f" floating="no" ignoreCase="no" 
                          initiatedContent="no" initiator="" leadingSkip="0" separator="" separatorPolicy="suppressed" 
@@ -215,11 +215,11 @@
 			<xs:sequence>
 				<!-- The size of the BMP file in bytes -->
 				<!-- All of the integer values are stored in little-endian format (i.e. least-significant byte first) -->
-				<xs:element name="File_Size" type="unsignedint32" dfdl:byteOrder="littleEndian"/>  <!-- 4 bytes -->
+				<xs:element name="File_Size" type="unsignedint32" />  <!-- 4 bytes -->
 				<xs:element name="Reserved" type="unsignedint16" />  <!-- 2 bytes -->
 				<xs:element name="Reserved" type="unsignedint16" />  <!-- 2 bytes -->
 				<!-- The offset, i.e. starting address, of the byte where the bitmap image data (pixel array) can be found -->
-				<xs:element name="Image_Data_Offset" type="unsignedint32" dfdl:byteOrder="littleEndian"/>  <!-- 4 bytes -->
+				<xs:element name="Image_Data_Offset" type="unsignedint32" />  <!-- 4 bytes -->
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -229,13 +229,13 @@
 		<xs:complexType>
 			<xs:sequence>
 				<!-- The bitmap width in pixels -->
-				<xs:element name="Bitmap_Width" type="unsignedint16" dfdl:byteOrder="littleEndian" />
+				<xs:element name="Bitmap_Width" type="unsignedint16" />
 				<!-- The bitmap height in pixels -->
-				<xs:element name="Bitmap_Height" type="unsignedint16" dfdl:byteOrder="littleEndian" />
+				<xs:element name="Bitmap_Height" type="unsignedint16" />
 				<!-- The number of color planes (must be 1) -->
-				<xs:element name="Number_of_Color_Planes" type="unsignedint16" dfdl:byteOrder="littleEndian" />
+				<xs:element name="Number_of_Color_Planes" type="unsignedint16" />
 				<!-- The number of bits per pixel, which is the color depth of the image. Typical values are 1, 4, 8, 16, 24 and 32 -->
-				<xs:element name="Number_of_Bits_per_Pixel" type="unsignedint16" dfdl:byteOrder="littleEndian" />
+				<xs:element name="Number_of_Bits_per_Pixel" type="unsignedint16" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -244,13 +244,13 @@
 	<xs:group name="First-16-bytes">
 		<xs:sequence>
 			<!-- The bitmap width in pixels. NOTE: this is 4 bytes, whereas in BITMAPCOREHEADER it is 2 bytes. -->
-			<xs:element name="Bitmap_Width" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Bitmap_Width" type="unsignedint32" />
 			<!-- The bitmap height in pixels. NOTE: this is 4 bytes, whereas in BITMAPCOREHEADER it is 2 bytes. -->
-			<xs:element name="Bitmap_Height" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Bitmap_Height" type="unsignedint32" />
 			<!-- The number of color planes (must be 1) -->
-			<xs:element name="Number_of_Color_Planes" type="unsignedint16" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Number_of_Color_Planes" type="unsignedint16" />
 			<!-- The number of bits per pixel, which is the color depth of the image. Typical values are 1, 4, 8, 16, 24 and 32 -->
-			<xs:element name="Number_of_Bits_per_Pixel" type="unsignedint16" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Number_of_Bits_per_Pixel" type="unsignedint16" />
 		</xs:sequence>
 	</xs:group>
 	
@@ -275,15 +275,15 @@
 				else daf:error()
 				}'/>
 			<!-- The image size. This is the size of the raw bitmap data; a dummy 0 can be given for BI_RGB bitmaps -->
-			<xs:element name="Image_Size" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Image_Size" type="unsignedint32" />
 			<!-- The horizontal resolution of the image. (pixel per meter) -->
-			<xs:element name="Horizontal_Resolution" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Horizontal_Resolution" type="unsignedint32" />
 			<!-- The vertical resolution of the image. (pixel per meter) -->
-			<xs:element name="Vertical_Resolution" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Vertical_Resolution" type="unsignedint32" />
 			<!-- The number of colors in the color palette, or 0 to default to 2**n -->
-			<xs:element name="Number_of_Colors_in_the_Color_Palette" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Number_of_Colors_in_the_Color_Palette" type="unsignedint32" />
 			<!-- The number of important colors used, or 0 when every color is important; generally ignored -->
-			<xs:element name="Number_of_Colors_Used" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Number_of_Colors_Used" type="unsignedint32" />
 		</xs:sequence>
 	</xs:group>
 	
@@ -296,7 +296,7 @@
 	
 	<xs:group name="hidden_BMP_Compression_Method_Group">
 		<xs:sequence>
-			<xs:element name="Hidden_Compression_Method" type="unsignedint32" dfdl:byteOrder="littleEndian"
+			<xs:element name="Hidden_Compression_Method" type="unsignedint32"
 				dfdl:outputValueCalc="{
 				if (../Compression_Method eq 'none') then 0
 				else if (../Compression_Method eq 'RLE 8-bit/pixel') then 1
@@ -351,9 +351,9 @@
 					else daf:error()
 					}'/>
 				<!-- Pad structure to 4-byte boundary -->
-				<xs:element name="Padding" type="unsignedint16" dfdl:byteOrder="littleEndian" />
+				<xs:element name="Padding" type="unsignedint16" />
 				<!-- Recording algorithm -->
-				<xs:element name="Recording" type="unsignedint16" dfdl:byteOrder="littleEndian" />
+				<xs:element name="Recording" type="unsignedint16" />
 				<!-- Halftoning algorithm used -->
 				<xs:sequence dfdl:hiddenGroupRef="hidden_BMP_Rendering_Group"/>
 				<xs:element name="Rendering" type="xs:string" dfdl:inputValueCalc='{
@@ -364,20 +364,20 @@
 					else daf:error()
 					}'/>
 				<!-- Reserved for halftoning algorithm use -->
-				<xs:element name="Size1" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+				<xs:element name="Size1" type="unsignedint32" />
 				<!-- Reserved for halftoning algorithm use -->
-				<xs:element name="Size2" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+				<xs:element name="Size2" type="unsignedint32" />
 				<!-- Color model used in bitmap -->
-				<xs:element name="Color_Encoding" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+				<xs:element name="Color_Encoding" type="unsignedint32" />
 				<!-- Reserved for application use -->
-				<xs:element name="Identifier" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+				<xs:element name="Identifier" type="unsignedint32" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 	
 	<xs:group name="hidden_BMP_Resolution_Units_Group">
 		<xs:sequence>
-			<xs:element name="Hidden_Resolution_Units" type="unsignedint16" dfdl:byteOrder="littleEndian"
+			<xs:element name="Hidden_Resolution_Units" type="unsignedint16"
 				dfdl:outputValueCalc="{
 				if (../Resolution_Units eq 'pixels per meter') then 0
 				else daf:error() }" />
@@ -386,7 +386,7 @@
 	
 	<xs:group name="hidden_BMP_Rendering_Group">
 		<xs:sequence>
-			<xs:element name="Hidden_Rendering" type="unsignedint16" dfdl:byteOrder="littleEndian"
+			<xs:element name="Hidden_Rendering" type="unsignedint16"
 				dfdl:outputValueCalc="{
 				if (../Rendering eq 'no halftoning algorithm used') then 0
 				else if (../Rendering eq 'error diffusion halftoning') then 1
@@ -411,15 +411,15 @@
 	<xs:group name="Common-Stuff-2">
 		<xs:sequence>
 			<!-- Color mask that specifies the red component of each pixel, valid only if bV4Compression is set to BI_BITFIELDS. -->
-			<xs:element name="Red_Mask" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Red_Mask" type="unsignedint32" />
 			<!-- Color mask that specifies the green component of each pixel, valid only if bV4Compression is set to BI_BITFIELDS. -->
-			<xs:element name="Green_Mask" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Green_Mask" type="unsignedint32" />
 			<!-- Color mask that specifies the blue component of each pixel, valid only if bV4Compression is set to BI_BITFIELDS. -->
-			<xs:element name="Blue_Mask" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Blue_Mask" type="unsignedint32" />
 			<!-- Color mask that specifies the alpha component of each pixel. -->
-			<xs:element name="Alpha_Mask" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Alpha_Mask" type="unsignedint32" />
 			<!-- The color space of the DIB. -->
-			<!--<xs:element name="Color_Space" type="unsignedint32" dfdl:byteOrder="littleEndian" />-->
+			<!--<xs:element name="Color_Space" type="unsignedint32" />-->
 			<xs:sequence dfdl:hiddenGroupRef="hidden_BMP_Color_Space_Group"/>
 			<xs:element name="Color_Space" type="xs:string" dfdl:inputValueCalc='{
 				if (../Hidden_Color_Space eq 0) then "LCS_CALIBRATED_RGB"
@@ -504,8 +504,8 @@
 
 	<xs:complexType name="Gamma">
 		<xs:sequence>
-			<xs:element name="Fractional_Part" type="unsignedint16" dfdl:byteOrder="littleEndian" />
-			<xs:element name="Unsigned_Integer_Value" type="unsignedint16" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Fractional_Part" type="unsignedint16" />
+			<xs:element name="Unsigned_Integer_Value" type="unsignedint16" />
 		</xs:sequence>
 	</xs:complexType>
 			
@@ -524,9 +524,9 @@
 	<xs:complexType name="FXPT2DOT30">
 		<xs:sequence>
 			<!-- 2-bit integer part -->
-			<xs:element name="Two-bit-integer-part" type="unsignedint2" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Two-bit-integer-part" type="unsignedint2" />
 			<!-- The 30-bit fractional part -->
-			<xs:element name="Thirty-bit-fractional-part" type="unsignedint30" dfdl:byteOrder="littleEndian" />
+			<xs:element name="Thirty-bit-fractional-part" type="unsignedint30" />
 		</xs:sequence>
 	</xs:complexType>
 	
@@ -574,16 +574,16 @@
 					else if (../Hidden_Intent eq 4) then "LCS_GM_IMAGES (Perceptual)"
 					else daf:error()
 					}'/>
-				<xs:element name="Profile_Data" type="unsignedint32" dfdl:byteOrder="littleEndian" />
-				<xs:element name="Profile_Size" type="unsignedint32" dfdl:byteOrder="littleEndian" />
-				<xs:element name="Reserved" type="unsignedint32" dfdl:byteOrder="littleEndian" />
+				<xs:element name="Profile_Data" type="unsignedint32" />
+				<xs:element name="Profile_Size" type="unsignedint32" />
+				<xs:element name="Reserved" type="unsignedint32" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 	
 	<xs:group name="hidden_BMP_Color_Space_Group">
 		<xs:sequence>
-			<xs:element name="Hidden_Color_Space" type="unsignedint32" dfdl:byteOrder="littleEndian"
+			<xs:element name="Hidden_Color_Space" type="unsignedint32"
 				dfdl:outputValueCalc="{
 				if (../Color_Space eq 'LCS_CALIBRATED_RGB') then 0
 				else if (../Color_Space eq 'LCS_sRGB') then 1934772034
@@ -596,7 +596,7 @@
 	
 	<xs:group name="hidden_BMP_Intent_Group">
 		<xs:sequence>
-			<xs:element name="Hidden_Intent" type="unsignedint32" dfdl:byteOrder="littleEndian"
+			<xs:element name="Hidden_Intent" type="unsignedint32"
 				dfdl:outputValueCalc="{
 				if (../Intent eq 'LCS_GM_ABS_COLORIMETRIC (Absolute Colorimetric)') then 8
 				else if (../Intent eq 'LCS_GM_BUSINESS (Saturation)') then 1
