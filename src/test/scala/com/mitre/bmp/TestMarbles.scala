@@ -1,7 +1,7 @@
 package com.mitre.bmp
 import org.junit.Test
-import edu.illinois.ncsa.daffodil.tdml.DFDLTestSuite
-import edu.illinois.ncsa.daffodil.util.Misc
+import org.apache.daffodil.tdml.DFDLTestSuite
+import org.apache.daffodil.util.Misc
 
 object TestMarbles {
   val tdmlFile = "com/mitre/bmp/Marbles/Marbles.tdml"
