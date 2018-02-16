@@ -131,11 +131,11 @@
 		was not BM. So, Boyd approved this: process standard bitmaps,
 		reject all others.
 	-->
-	<xs:element name="Bitmap_Array" type="xs:string" dfdl:inputValueCalc='{daf:error()}'/>
-	<xs:element name="Icon" type="xs:string" dfdl:inputValueCalc='{daf:error()}'/>
-	<xs:element name="Color_Icon" type="xs:string" dfdl:inputValueCalc='{daf:error()}'/>
-	<xs:element name="Pointer" type="xs:string" dfdl:inputValueCalc='{daf:error()}'/>
-	<xs:element name="Color_Pointer" type="xs:string" dfdl:inputValueCalc='{daf:error()}'/>
+	<xs:element name="Bitmap_Array" type="xs:string" dfdl:inputValueCalc='{fn:error("bmp", "fn:error called.", .)}'/>
+	<xs:element name="Icon" type="xs:string" dfdl:inputValueCalc='{fn:error("bmp", "fn:error called.", .)}'/>
+	<xs:element name="Color_Icon" type="xs:string" dfdl:inputValueCalc='{fn:error("bmp", "fn:error called.", .)}'/>
+	<xs:element name="Pointer" type="xs:string" dfdl:inputValueCalc='{fn:error("bmp", "fn:error called.", .)}'/>
+	<xs:element name="Color_Pointer" type="xs:string" dfdl:inputValueCalc='{fn:error("bmp", "fn:error called.", .)}'/>
 	
 	<xs:element name="Standard-Bitmap">
 		<xs:complexType>
@@ -272,7 +272,7 @@
 				else if (../Hidden_Compression_Method eq 11) then "none - Windows metafile CMYK"
 				else if (../Hidden_Compression_Method eq 12) then "RLE-8"
 				else if (../Hidden_Compression_Method eq 13) then "RLE-4"
-				else daf:error()
+				else fn:error("bmp", "fn:error called", .)
 				}'/>
 			<!-- The image size. This is the size of the raw bitmap data; a dummy 0 can be given for BI_RGB bitmaps -->
 			<xs:element name="Image_Size" type="unsignedint32" />
@@ -308,7 +308,7 @@
 				else if (../Compression_Method eq 'none - Windows metafile CMYK') then 11
 				else if (../Compression_Method eq 'RLE-8') then 12
 				else if (../Compression_Method eq 'RLE-4') then 13
-				else daf:error()
+				else fn:error('bmp', 'fn:error called.', .)
 				}"
 			/>
 		</xs:sequence>
@@ -348,7 +348,7 @@
 				<xs:sequence dfdl:hiddenGroupRef="hidden_BMP_Resolution_Units_Group"/>	<!-- Type of units used to measure resolution -->
 				<xs:element name="Resolution_Units" type="xs:string" dfdl:inputValueCalc='{
 					if (../Hidden_Resolution_Units eq 0) then "pixels per meter"
-					else daf:error()
+					else fn:error("bmp", "fn:error called.", .)
 					}'/>
 				<!-- Pad structure to 4-byte boundary -->
 				<xs:element name="Padding" type="unsignedint16" />
@@ -361,7 +361,7 @@
 					else if (../Hidden_Rendering eq 1) then "error diffusion halftoning"
 					else if (../Hidden_Rendering eq 2) then "Processing Algorithm for Noncoded Document Acquisition (PANDA)"
 					else if (../Hidden_Rendering eq 3) then "super-circle halftoning"
-					else daf:error()
+					else fn:error("bmp", "fn:error called.", .)
 					}'/>
 				<!-- Reserved for halftoning algorithm use -->
 				<xs:element name="Size1" type="unsignedint32" />
@@ -380,7 +380,7 @@
 			<xs:element name="Hidden_Resolution_Units" type="unsignedint16"
 				dfdl:outputValueCalc="{
 				if (../Resolution_Units eq 'pixels per meter') then 0
-				else daf:error() }" />
+				else fn:error('bmp', 'fn:error called.', .) }" />
 		</xs:sequence>
 	</xs:group>
 	
@@ -392,7 +392,7 @@
 				else if (../Rendering eq 'error diffusion halftoning') then 1
 				else if (../Rendering eq 'Processing Algorithm for Noncoded Document Acquisition (PANDA)') then 2
 				else if (../Rendering eq 'super-circle halftoning') then 3
-				else daf:error() }" />
+				else fn:error('bmp', 'fn:error called.', .) }" />
 		</xs:sequence>
 	</xs:group>
 	
@@ -427,7 +427,7 @@
 				else if (../Hidden_Color_Space eq 1466527264) then "LCS_WINDOWS_COLOR_SPACE"
 				else if (../Hidden_Color_Space eq 3) then "PROFILE_LINKED"
 				else if (../Hidden_Color_Space eq 4) then "PROFILE_EMBEDDED"
-				else daf:error()
+				else fn:error("bmp", "fn:error called.", .)
 				}'/>
 			<!-- A CIEXYZTRIPLE structure that specifies the x, y, and z coordinates of the three colors
 					that correspond to the red, green, and blue endpoints for the logical color space 
@@ -572,7 +572,7 @@
 					else if (../Hidden_Intent eq 1) then "LCS_GM_BUSINESS (Saturation)"
 					else if (../Hidden_Intent eq 2) then "LCS_GM_GRAPHICS (Relative Colorimetric)"
 					else if (../Hidden_Intent eq 4) then "LCS_GM_IMAGES (Perceptual)"
-					else daf:error()
+					else fn:error("bmp", "fn:error called.", .)
 					}'/>
 				<xs:element name="Profile_Data" type="unsignedint32" />
 				<xs:element name="Profile_Size" type="unsignedint32" />
@@ -590,7 +590,7 @@
 				else if (../Color_Space eq 'LCS_WINDOWS_COLOR_SPACE') then 1466527264
 				else if (../Color_Space eq 'PROFILE_LINKED') then 3
 				else if (../Color_Space eq 'PROFILE_EMBEDDED') then 4
-				else daf:error() }" />
+				else fn:error('bmp','fn:error called.', .) }" />
 		</xs:sequence>
 	</xs:group>
 	
@@ -602,7 +602,7 @@
 				else if (../Intent eq 'LCS_GM_BUSINESS (Saturation)') then 1
 				else if (../Intent eq 'LCS_GM_GRAPHICS (Relative Colorimetric)') then 2
 				else if (../Intent eq 'LCS_GM_IMAGES (Perceptual)') then 4
-				else daf:error() }" />
+				else fn:error('bmp','fn:error called.', .) }" />
 		</xs:sequence>
 	</xs:group>
 		
