@@ -1,14 +1,11 @@
 package com.mitre.bmp
 import org.junit.Test
-import org.apache.daffodil.tdml.DFDLTestSuite
-import org.apache.daffodil.util.Misc
+import org.apache.daffodil.tdml.Runner
 
 object TestMarbles {
-  val tdmlFile = "com/mitre/bmp/Marbles/Marbles.tdml"
-  val validateTDML = true
-  val validateDFDLSchema = true
-  lazy val runner = new DFDLTestSuite(Misc.getRequiredResource(tdmlFile), validateTDML, validateDFDLSchema)
-  runner.setCheckAllTopLevel(true)
+  val testDir = "com/mitre/bmp/Marbles"
+  val tdmlFile = "Marbles.tdml"
+  lazy val runner = Runner(testDir, tdmlFile, compileAllTopLevel = true)
 }
 
 class TestMarbles {
