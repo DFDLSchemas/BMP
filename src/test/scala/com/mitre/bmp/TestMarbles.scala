@@ -11,5 +11,5 @@ object TestMarbles {
 class TestMarbles {
   import TestMarbles._
 
-  @Test def test_Marbles() { runner.runOneTest("Marbles") }
+  @Test def test_Marbles() = { runner.runOneTest("Marbles") }
 }
